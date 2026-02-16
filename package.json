@@ -1,6 +1,6 @@
 {
 	"name": "error-serialize",
-	"version": "0.0.0-development",
+	"version": "1.0.0",
 	"description": "Serialize and deserialize Error objects to plain objects, preserving cause chains and custom properties",
 	"license": "MIT",
 	"repository": "mstuart/error-serialize",
