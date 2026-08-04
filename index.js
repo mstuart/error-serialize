@@ -31,9 +31,9 @@ export function serialize(error) {
 		serialized.cause = serialize(error.cause);
 	}
 
-	for (const key of Object.keys(error)) {
-		if (!(key in serialized)) {
-			serialized[key] = error[key];
+	for (const [key, value] of Object.entries(error)) {
+		if (!Object.hasOwn(serialized, key)) {
+			serialized[key] = value;
 		}
 	}
 
@@ -60,9 +60,9 @@ export function deserialize(object) {
 		error.cause = deserialize(object.cause);
 	}
 
-	for (const key of Object.keys(object)) {
+	for (const [key, value] of Object.entries(object)) {
 		if (!['name', 'message', 'stack', 'code', 'cause'].includes(key)) {
-			error[key] = object[key];
+			error[key] = value;
 		}
 	}
 
