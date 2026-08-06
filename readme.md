@@ -1,7 +1,16 @@
-# error-serialize
+<div align="center">
+  <img src="docs/assets/logo.svg" alt="error-serialize — Serialize and deserialize Error objects to plain objects, preserving cause chains" width="720">
+</div>
 
-> Serialize and deserialize Error objects to plain objects, preserving cause chains and custom properties
+<p align="center"><strong>Serialize and deserialize Error objects to plain objects, preserving cause chains</strong></p>
 
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://www.npmjs.com/package/error-serialize"><img src="https://img.shields.io/npm/v/error-serialize?label=npm" alt="npm"></a>
+  <img src="https://img.shields.io/badge/node-%E2%89%A520-339933.svg" alt="Node 20+">
+</p>
+
+---
 ## Install
 
 ```sh
