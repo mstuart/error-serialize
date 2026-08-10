@@ -1,11 +1,11 @@
-export type SerializedError = {
-	[key: string]: unknown;
-	name: string;
-	message: string;
-	stack?: string;
-	code?: string;
-	cause?: SerializedError;
-};
+export interface SerializedError {
+  cause?: SerializedError;
+  code?: string;
+  message: string;
+  name: string;
+  stack?: string;
+  [key: string]: unknown;
+}
 
 /**
 Serialize an Error object to a plain object, preserving cause chains and custom properties.
