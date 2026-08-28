@@ -44,8 +44,8 @@ export function deserialize(object) {
   if (
     typeof object !== "object" ||
     object === null ||
-    !object.name ||
-    !object.message
+    typeof object.name !== "string" ||
+    typeof object.message !== "string"
   ) {
     return object;
   }

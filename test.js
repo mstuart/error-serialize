@@ -187,6 +187,12 @@ test("unknown error name falls back to Error", (t) => {
   t.is(error.message, "custom");
 });
 
+test("deserialize preserves an empty error message", (t) => {
+  const error = deserialize({ message: "", name: "Error" });
+  t.true(error instanceof Error);
+  t.is(error.message, "");
+});
+
 test("serialized result is JSON-serializable", (t) => {
   const error = new Error("test");
   error.code = "ERR_TEST";
