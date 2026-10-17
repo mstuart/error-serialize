@@ -9,7 +9,9 @@ const errorConstructors = {
 };
 
 function getErrorConstructor(name) {
-  return errorConstructors[name] ?? Error;
+  return Object.hasOwn(errorConstructors, name)
+    ? errorConstructors[name]
+    : Error;
 }
 
 export function serialize(error) {
@@ -32,8 +34,13 @@ export function serialize(error) {
   }
 
   for (const key of Object.keys(error)) {
-    if (!(key in serialized)) {
-      serialized[key] = error[key];
+    if (!Object.hasOwn(serialized, key)) {
+      Object.defineProperty(serialized, key, {
+        configurable: true,
+        enumerable: true,
+        value: error[key],
+        writable: true,
+      });
     }
   }
 
@@ -52,6 +59,13 @@ export function deserialize(object) {
 
   const ErrorConstructor = getErrorConstructor(object.name);
   const error = new ErrorConstructor(object.message);
+  if (error.name !== object.name) {
+    Object.defineProperty(error, "name", {
+      configurable: true,
+      value: object.name,
+      writable: true,
+    });
+  }
 
   if (object.stack !== undefined) {
     error.stack = object.stack;
@@ -67,7 +81,12 @@ export function deserialize(object) {
 
   for (const key of Object.keys(object)) {
     if (!["name", "message", "stack", "code", "cause"].includes(key)) {
-      error[key] = object[key];
+      Object.defineProperty(error, key, {
+        configurable: true,
+        enumerable: true,
+        value: object[key],
+        writable: true,
+      });
     }
   }
 
