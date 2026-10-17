@@ -56,3 +56,12 @@ test("untrusted __proto__ input cannot change the reconstructed Error prototype"
   t.false(Object.hasOwn(restored, "injected"));
   t.true(Object.hasOwn(restored, "__proto__"));
 });
+
+test("restoring names keeps native error enumerability", (t) => {
+  const builtin = deserialize({ message: "example", name: "TypeError" });
+  t.false(Object.hasOwn(builtin, "name"));
+  const custom = deserialize({ message: "example", name: "ApplicationError" });
+  t.is(custom.name, "ApplicationError");
+  t.false(Object.getOwnPropertyDescriptor(custom, "name").enumerable);
+  t.deepEqual(Object.keys(custom), []);
+});

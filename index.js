@@ -59,7 +59,13 @@ export function deserialize(object) {
 
   const ErrorConstructor = getErrorConstructor(object.name);
   const error = new ErrorConstructor(object.message);
-  error.name = object.name;
+  if (error.name !== object.name) {
+    Object.defineProperty(error, "name", {
+      configurable: true,
+      value: object.name,
+      writable: true,
+    });
+  }
 
   if (object.stack !== undefined) {
     error.stack = object.stack;
