@@ -33,6 +33,12 @@ export function serialize(error) {
     serialized.cause = serialize(error.cause);
   }
 
+  if (error instanceof AggregateError) {
+    serialized.errors = Array.isArray(error.errors)
+      ? error.errors.map(serialize)
+      : error.errors;
+  }
+
   for (const key of Object.keys(error)) {
     if (!Object.hasOwn(serialized, key)) {
       Object.defineProperty(serialized, key, {
@@ -58,7 +64,11 @@ export function deserialize(object) {
   }
 
   const ErrorConstructor = getErrorConstructor(object.name);
-  const error = new ErrorConstructor(object.message);
+  const isAggregate =
+    object.name === "AggregateError" && Array.isArray(object.errors);
+  const error = isAggregate
+    ? new AggregateError(object.errors.map(deserialize), object.message)
+    : new ErrorConstructor(object.message);
   if (error.name !== object.name) {
     Object.defineProperty(error, "name", {
       configurable: true,
@@ -80,6 +90,9 @@ export function deserialize(object) {
   }
 
   for (const key of Object.keys(object)) {
+    if (key === "errors" && isAggregate) {
+      continue;
+    }
     if (!["name", "message", "stack", "code", "cause"].includes(key)) {
       Object.defineProperty(error, key, {
         configurable: true,

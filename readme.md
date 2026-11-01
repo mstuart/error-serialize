@@ -59,7 +59,7 @@ restored.cause instanceof RangeError;
 
 ### serialize(error)
 
-Returns a plain `object` with `name`, `message`, `stack`, and any custom enumerable properties. Recursively serializes `error.cause`. Non-Error values are returned as-is.
+Returns a plain `object` with `name`, `message`, `stack`, and any custom enumerable properties. Recursively serializes `error.cause` and the member reasons in `AggregateError.errors`. Non-Error values are returned as-is.
 
 #### error
 
@@ -69,7 +69,7 @@ The Error object to serialize.
 
 ### deserialize(object)
 
-Returns an `Error` instance reconstructed from the plain object. Maps `name` to built-in error constructors (`TypeError`, `RangeError`, etc.). Recursively deserializes cause chains. Non-error objects are returned as-is.
+Returns an `Error` instance reconstructed from the plain object. Maps `name` to built-in error constructors (`TypeError`, `RangeError`, etc.). Recursively deserializes cause chains and reconstructs `AggregateError` members. Non-error objects are returned as-is.
 
 #### object
 

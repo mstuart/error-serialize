@@ -14,3 +14,7 @@ const unknownDeser = deserialize("not an object");
 expectType<unknown>(unknownDeser);
 
 expectError(serialize());
+
+expectType<unknown[] | undefined>(
+  serialize(new AggregateError([new Error("member")], "batch")).errors
+);
