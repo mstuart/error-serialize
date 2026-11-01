@@ -1,6 +1,7 @@
 export interface SerializedError {
   cause?: SerializedError;
   code?: string;
+  errors?: unknown[];
   message: string;
   name: string;
   stack?: string;
